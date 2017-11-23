@@ -1,15 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
+## My functions are pretty similar to "makeVector" and "cachemean" from example. 
 
-## Write a short comment describing this function
-
+## This function is a list of 4 functions for getting and setting our matrix and inversion of it. 
 makeCacheMatrix <- function(x = matrix()) {
-
+  inverted <- NULL
+  set <- function(y)
+  {
+    x <<- y
+    inverted <<- NULL
+  }
+  get <- function() x
+  setinvert <- function(inverted) inverted <<- inverted
+  getinvert <- function() inverted
+  list(set = set, get = get,
+       setinvert = setinvert,
+       getinvert = getinvert)
 }
 
 
-## Write a short comment describing this function
-
+## This function check inversion and create it if object is null. 
+## If there is inverted cached matrix then we don't recalculate.  
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  i <- x$getinvert()
+  if(!is.null(i)) {
+    message("getting cached data")
+    return(i)
+  }
+  data <- x$get()
+  i <- solve(data, ...)
+  x$setinvert(i)
+  i     
 }
